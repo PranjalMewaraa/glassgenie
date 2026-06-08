@@ -2,10 +2,35 @@ import { Container } from "@/components/ui";
 import { PhoneIcon, MailIcon, PinIcon, ClockIcon } from "@/components/icons";
 import { ContactForm } from "@/components/ContactForm";
 import { QuoteForm } from "@/components/QuoteForm";
+import { FaqSection } from "@/components/sections";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ManagedHeading } from "@/components/ManagedHeading";
 import { resolveMetadata } from "@/lib/seo";
 import { business, tel, serviceCities } from "@/content/business";
+import type { FAQ } from "@/content/types";
+
+const contactFaqs: FAQ[] = [
+  {
+    question: "How quickly can I get an appointment?",
+    answer:
+      "Most windshield repairs and replacements can be scheduled same-day or next-day across Dallas–Fort Worth. Call us for the fastest turnaround — phones are answered 24/7 for emergencies.",
+  },
+  {
+    question: "Do you come to my location?",
+    answer:
+      "Yes. We're a fully mobile service — our certified technicians come to your home, workplace, or roadside anywhere in our DFW service area at no extra charge.",
+  },
+  {
+    question: "How does the instant quote work?",
+    answer:
+      "Tell us your vehicle's year, make, model, and which glass needs work, and we'll give you an upfront, no-obligation price — including any ADAS calibration your vehicle requires. There are no hidden fees added later.",
+  },
+  {
+    question: "What are your hours?",
+    answer:
+      `Our standard hours are ${business.hours.label} (${business.hours.sunday}). For roadside emergencies and after-hours questions, call ${business.phoneDisplay} any time — our line is staffed 24/7.`,
+  },
+];
 
 export function generateMetadata() {
   return resolveMetadata({
@@ -89,6 +114,8 @@ export default function ContactPage() {
           </div>
         </Container>
       </section>
+
+      <FaqSection faqs={contactFaqs} bg="bg-card" />
 
       <BreadcrumbJsonLd
         items={[

@@ -1,7 +1,8 @@
 import { Container, SectionHeading } from "@/components/ui";
-import { CtaBand } from "@/components/sections";
+import { CtaBand, FaqSection } from "@/components/sections";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
 import { ManagedHeading } from "@/components/ManagedHeading";
+import type { FAQ } from "@/content/types";
 import {
   ShieldIcon,
   CheckIcon,
@@ -21,6 +22,29 @@ export function generateMetadata() {
     path: "/about",
   });
 }
+
+const aboutFaqs: FAQ[] = [
+  {
+    question: "How long has Glass Genie been in business?",
+    answer:
+      "We opened in 1996 and are now run by the second generation of the same family. Three decades in the Dallas–Fort Worth market means we've seen every vehicle, every insurer, and every weather extreme Texas can throw at a windshield.",
+  },
+  {
+    question: "Are your technicians certified?",
+    answer:
+      "Yes. Every installer is trained to AGSC (Auto Glass Safety Council) standards and follows the manufacturer's published bonding and cure-time specifications on every job — the same standards a dealership body shop is held to.",
+  },
+  {
+    question: "Do you only do mobile service, or do you have a shop?",
+    answer:
+      "We're mobile-first: we come to your home, office, or anywhere your vehicle is parked across DFW, at no extra charge. That keeps our overhead low and our pricing honest, without sacrificing the controlled conditions a quality install needs.",
+  },
+  {
+    question: "What makes a family-owned shop different from a national chain?",
+    answer:
+      "There's no call center and no quota. When you book, you deal with the people who actually do the work and stand behind it with a lifetime workmanship warranty. Our name is on every windshield, so we'd rather lose a job than rush one.",
+  },
+];
 
 const values = [
   {
@@ -210,6 +234,8 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
+
+      <FaqSection faqs={aboutFaqs} bg="bg-surface" />
 
       <CtaBand
         title="Experience the Glass Genie Difference."

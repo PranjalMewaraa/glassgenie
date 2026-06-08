@@ -1,10 +1,34 @@
 import Link from "next/link";
 import { Container, SectionHeading } from "@/components/ui";
 import { ArrowRightIcon, PinIcon } from "@/components/icons";
-import { CtaBand } from "@/components/sections";
+import { CtaBand, FaqSection } from "@/components/sections";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { resolveMetadata } from "@/lib/seo";
 import { locations } from "@/content/locations";
+import type { FAQ } from "@/content/types";
+
+const locationsFaqs: FAQ[] = [
+  {
+    question: "Do you charge extra for mobile service in my city?",
+    answer:
+      "No. Mobile service is included at no additional charge throughout our Dallas–Fort Worth coverage area. The price we quote is the price you pay, whether we come to your driveway in Plano or a parking lot in Fort Worth.",
+  },
+  {
+    question: "My city isn't listed — can you still help me?",
+    answer:
+      "Very likely. The cities listed are where we work most often, but our technicians cover the wider DFW metroplex and surrounding suburbs. Give us a call with your ZIP code and we'll confirm we can reach you.",
+  },
+  {
+    question: "How fast can a technician reach me?",
+    answer:
+      "For most DFW locations we offer same-day or next-day appointments. Because our vans are already on the road across the metroplex, we can usually route a technician to you within hours for urgent jobs.",
+  },
+  {
+    question: "Can you meet me at work instead of home?",
+    answer:
+      "Absolutely. We'll come to your office, a job site, or anywhere your vehicle is safely parked. Many customers schedule us during the workday so the install is finished by the time they head home.",
+  },
+];
 
 export function generateMetadata() {
   return resolveMetadata({
@@ -51,6 +75,8 @@ export default function LocationsHubPage() {
           </div>
         </Container>
       </section>
+
+      <FaqSection faqs={locationsFaqs} bg="bg-surface" />
 
       <CtaBand title="Mobile auto glass, wherever you are in DFW." />
 

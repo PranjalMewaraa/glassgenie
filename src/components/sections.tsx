@@ -1,8 +1,40 @@
 import Link from "next/link";
-import { Container, ButtonLink } from "@/components/ui";
+import { Container, ButtonLink, SectionHeading } from "@/components/ui";
 import { PhoneIcon, ArrowRightIcon, StarIcon } from "@/components/icons";
 import { business, tel } from "@/content/business";
 import { locations } from "@/content/locations";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { FaqJsonLd } from "@/components/seo/JsonLd";
+import type { FAQ } from "@/content/types";
+
+/**
+ * Reusable FAQ section: heading + accordion + matching FAQPage JSON-LD.
+ * Renders nothing when `faqs` is empty so callers can drop it in safely.
+ */
+export function FaqSection({
+  faqs,
+  title = "Frequently Asked Questions",
+  eyebrow,
+  bg = "bg-surface",
+}: {
+  faqs: FAQ[];
+  title?: string;
+  eyebrow?: string;
+  bg?: string;
+}) {
+  if (faqs.length === 0) return null;
+  return (
+    <section className={bg}>
+      <Container className="py-16 sm:py-20">
+        <SectionHeading eyebrow={eyebrow} title={title} />
+        <div className="mx-auto mt-10 max-w-3xl">
+          <FaqAccordion faqs={faqs} />
+        </div>
+      </Container>
+      <FaqJsonLd faqs={faqs} />
+    </section>
+  );
+}
 
 /** Dark conversion band: headline + dual CTA + reassurance line. */
 export function CtaBand({

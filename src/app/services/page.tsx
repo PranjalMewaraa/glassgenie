@@ -1,9 +1,33 @@
 import { Container, SectionHeading } from "@/components/ui";
 import { ServiceCard } from "@/components/cards";
-import { CtaBand } from "@/components/sections";
+import { CtaBand, FaqSection } from "@/components/sections";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { resolveMetadata } from "@/lib/seo";
 import { services } from "@/content/services";
+import type { FAQ } from "@/content/types";
+
+const servicesFaqs: FAQ[] = [
+  {
+    question: "Should my windshield be repaired or replaced?",
+    answer:
+      "As a rule of thumb, chips smaller than a quarter and cracks shorter than about three inches that aren't in the driver's line of sight can usually be repaired. Larger damage, anything spreading to the edge, or damage over an embedded camera typically calls for a full replacement. We'll assess it and tell you honestly which is safe.",
+  },
+  {
+    question: "Do all your services include a warranty?",
+    answer:
+      "Yes. Every installation is backed by our lifetime workmanship warranty against leaks, wind noise, and bonding defects for as long as you own the vehicle. Repairs are guaranteed not to spread.",
+  },
+  {
+    question: "Will I need an ADAS calibration?",
+    answer:
+      "If your vehicle has a forward-facing camera mounted on the windshield — common on most cars built in the last several years — it needs ADAS calibration after a windshield replacement so features like lane-keep assist and automatic braking aim correctly. We perform calibration in-house as part of the job.",
+  },
+  {
+    question: "Can you do all of these services mobile?",
+    answer:
+      "Nearly all of them. Windshield repair and replacement, door and quarter glass, regulators, and most calibrations are done right at your home or office. A small number of dynamic calibrations require a short road test, which our technician handles on site.",
+  },
+];
 
 export function generateMetadata() {
   return resolveMetadata({
@@ -36,6 +60,8 @@ export default function ServicesHubPage() {
           </div>
         </Container>
       </section>
+
+      <FaqSection faqs={servicesFaqs} bg="bg-surface" />
 
       <CtaBand
         title="Not sure which service you need?"
