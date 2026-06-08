@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/*
+  Glass Genie design tokens (Tailwind v4 CSS-first config).
+  NOTE: Tailwind v4 replaces tailwind.config.ts with the @theme block below.
+  Edit colors/fonts here. Fonts are injected as CSS vars by next/font in layout.tsx.
+*/
+@theme {
+  /* Brand navy / ink */
+  --color-ink: #0b1220;
+  --color-navy-900: #0b1220;
+  --color-navy-800: #111827;
+  --color-navy-700: #1c2740;
+
+  /* Accent blue (links, highlight word, focus rings) */
+  --color-accent: #2563eb;
+  --color-accent-600: #1d4ed8;
+
+  /* Surfaces */
+  --color-surface: #f8fafc;
+  --color-card: #ffffff;
+  --color-line: #e5e9f0;
+
+  /* Text */
+  --color-muted: #64748b;
+
+  /* Secondary brand accents from the genie logo — use sparingly */
+  --color-genie-green: #3fa34d;
+  --color-genie-orange: #e8821e;
+
+  /* Fonts (vars provided by next/font in layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Visible focus ring for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
