@@ -6,7 +6,7 @@ import { CheckIcon, PinIcon } from "@/components/icons";
 import { QuoteForm } from "@/components/QuoteForm";
 import { LocationBody } from "@/components/location/LocationBody";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { TrustBar } from "@/components/sections";
+import { TrustBar, ServiceAreaLinks } from "@/components/sections";
 import { ServiceCard } from "@/components/cards";
 import {
   FaqJsonLd,
@@ -130,6 +130,14 @@ export default async function LocationDetailPage({
           />
         </Container>
       </section>
+
+      {/* Nearby service areas — interlink to sibling city pages */}
+      <ServiceAreaLinks
+        currentSlug={loc.slug}
+        bg="bg-card"
+        title={`Auto Glass Service Near ${loc.city}`}
+        intro={`We also bring mobile windshield and auto glass service to neighboring cities across the DFW metroplex:`}
+      />
 
       <FaqJsonLd faqs={loc.faqs} />
       <BreadcrumbJsonLd

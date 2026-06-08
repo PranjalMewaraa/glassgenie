@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { Container, ButtonLink, SectionHeading } from "@/components/ui";
-import { PhoneIcon, ArrowRightIcon, StarIcon } from "@/components/icons";
+import { PhoneIcon, ArrowRightIcon, StarIcon, PinIcon } from "@/components/icons";
 import { business, tel } from "@/content/business";
 import { locations } from "@/content/locations";
+import { services } from "@/content/services";
+import { ServiceCard } from "@/components/cards";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { FaqJsonLd } from "@/components/seo/JsonLd";
 import type { FAQ } from "@/content/types";
@@ -32,6 +34,102 @@ export function FaqSection({
         </div>
       </Container>
       <FaqJsonLd faqs={faqs} />
+    </section>
+  );
+}
+
+/**
+ * Internal-linking block: cards for sibling services. On a service detail page
+ * pass `currentSlug` to exclude it; the list rotates so each page surfaces a
+ * different set of siblings (spreads link equity instead of all pages pointing
+ * at the same top three).
+ */
+export function RelatedServices({
+  currentSlug,
+  title = "Explore Our Other Services",
+  bg = "bg-surface",
+  limit = 3,
+}: {
+  currentSlug?: string;
+  title?: string;
+  bg?: string;
+  limit?: number;
+}) {
+  const idx = currentSlug ? services.findIndex((s) => s.slug === currentSlug) : -1;
+  const ordered =
+    idx >= 0 ? [...services.slice(idx + 1), ...services.slice(0, idx)] : services;
+  const picks = ordered.slice(0, limit);
+  if (picks.length === 0) return null;
+
+  return (
+    <section className={bg}>
+      <Container className="py-16 sm:py-20">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {title}
+          </h2>
+          <Link
+            href="/services"
+            className="hidden shrink-0 text-sm font-semibold text-accent hover:underline sm:inline"
+          >
+            View all services →
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {picks.map((s) => (
+            <ServiceCard key={s.slug} service={s} />
+          ))}
+        </div>
+        <div className="mt-6 sm:hidden">
+          <Link href="/services" className="text-sm font-semibold text-accent hover:underline">
+            View all services →
+          </Link>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/**
+ * Internal-linking block: chip links to every service-area city. Pass
+ * `currentSlug` on a location page to exclude the current city (so it reads as
+ * "nearby cities"). Builds a dense location↔location / service↔location mesh.
+ */
+export function ServiceAreaLinks({
+  currentSlug,
+  title = "Mobile Auto Glass Across Dallas–Fort Worth",
+  intro,
+  bg = "bg-card",
+}: {
+  currentSlug?: string;
+  title?: string;
+  intro?: string;
+  bg?: string;
+}) {
+  const cities = locations.filter((l) => l.slug !== currentSlug);
+  if (cities.length === 0) return null;
+
+  return (
+    <section className={bg}>
+      <Container className="py-14">
+        <h2 className="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+          {title}
+        </h2>
+        {intro && <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">{intro}</p>}
+        <ul className="mt-6 flex flex-wrap gap-3">
+          {cities.map((l) => (
+            <li key={l.slug}>
+              <Link
+                href={`/locations/${l.slug}`}
+                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent/40 hover:text-accent"
+              >
+                <PinIcon className="h-4 w-4 text-accent" />
+                {l.city}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </section>
   );
 }

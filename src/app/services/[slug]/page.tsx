@@ -6,6 +6,7 @@ import {
   BreadcrumbJsonLd,
 } from "@/components/seo/JsonLd";
 import { ServiceLayout } from "@/components/service/ServiceLayout";
+import { RelatedServices, ServiceAreaLinks } from "@/components/sections";
 import { resolveMetadata } from "@/lib/seo";
 import { services, getService } from "@/content/services";
 
@@ -38,6 +39,13 @@ export default async function ServiceDetailPage({
   return (
     <>
       <ServiceLayout service={service} path={path} />
+
+      <RelatedServices currentSlug={service.slug} bg="bg-surface" />
+
+      <ServiceAreaLinks
+        bg="bg-card"
+        intro={`Our certified technicians bring ${service.name.toLowerCase()} and every other service to your driveway across the DFW metroplex. Find your city:`}
+      />
 
       <ServiceJsonLd
         name={service.name}
