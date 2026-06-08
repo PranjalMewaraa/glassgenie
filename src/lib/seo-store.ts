@@ -28,6 +28,8 @@ export interface SeoOverride {
   ogDescription?: string;
   /** Absolute URL or site-relative path to the OG/social image. */
   ogImage?: string;
+  /** Comma-separated meta keywords. */
+  keywords?: string;
   /** When true, emits robots noindex,nofollow for this page. */
   noindex?: boolean;
   updatedAt?: string;
@@ -44,6 +46,7 @@ const FIELD_KEYS = [
   "ogTitle",
   "ogDescription",
   "ogImage",
+  "keywords",
 ] as const;
 
 /** Normalize a route path: ensure leading slash, strip trailing slash (except root). */
@@ -110,10 +113,15 @@ async function ensureTable(): Promise<void> {
           og_title         text,
           og_description   text,
           og_image         text,
+          keywords         text,
           noindex          boolean not null default false,
           updated_at       timestamptz not null default now()
         );
       `);
+      // Migrate tables created before the keywords column existed.
+      await pool.query(
+        "alter table seo_overrides add column if not exists keywords text;"
+      );
     })().catch((err) => {
       // Reset so a later call can retry instead of caching a rejected promise.
       globalForPg.__seoTableReady = undefined;
@@ -132,6 +140,7 @@ interface Row {
   og_title: string | null;
   og_description: string | null;
   og_image: string | null;
+  keywords: string | null;
   noindex: boolean;
   updated_at: Date | string;
 }
@@ -146,6 +155,7 @@ function rowToOverride(r: Row): SeoOverride {
     ogTitle: r.og_title ?? undefined,
     ogDescription: r.og_description ?? undefined,
     ogImage: r.og_image ?? undefined,
+    keywords: r.keywords ?? undefined,
     noindex: r.noindex,
     updatedAt:
       r.updated_at instanceof Date ? r.updated_at.toISOString() : String(r.updated_at),
@@ -176,8 +186,8 @@ async function pgUpsert(p: string, data: SeoOverrideInput): Promise<SeoOverride>
   const pool = await getPool();
   const { rows } = await pool.query<Row>(
     `insert into seo_overrides
-       (path, meta_title, meta_description, h1, canonical_path, og_title, og_description, og_image, noindex, updated_at)
-     values ($1,$2,$3,$4,$5,$6,$7,$8,$9, now())
+       (path, meta_title, meta_description, h1, canonical_path, og_title, og_description, og_image, keywords, noindex, updated_at)
+     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, now())
      on conflict (path) do update set
        meta_title = excluded.meta_title,
        meta_description = excluded.meta_description,
@@ -186,6 +196,7 @@ async function pgUpsert(p: string, data: SeoOverrideInput): Promise<SeoOverride>
        og_title = excluded.og_title,
        og_description = excluded.og_description,
        og_image = excluded.og_image,
+       keywords = excluded.keywords,
        noindex = excluded.noindex,
        updated_at = now()
      returning *`,
@@ -198,6 +209,7 @@ async function pgUpsert(p: string, data: SeoOverrideInput): Promise<SeoOverride>
       data.ogTitle ?? null,
       data.ogDescription ?? null,
       data.ogImage ?? null,
+      data.keywords ?? null,
       Boolean(data.noindex),
     ]
   );

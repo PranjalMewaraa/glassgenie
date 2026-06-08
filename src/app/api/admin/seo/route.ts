@@ -43,6 +43,7 @@ export async function POST(req: Request) {
     ogTitle: str(body.ogTitle),
     ogDescription: str(body.ogDescription),
     ogImage: str(body.ogImage),
+    keywords: str(body.keywords),
     noindex: Boolean(body.noindex),
   };
 

@@ -14,6 +14,7 @@ interface Override {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
+  keywords?: string;
   noindex?: boolean;
   updatedAt?: string;
 }
@@ -26,6 +27,7 @@ type Fields = {
   ogTitle: string;
   ogDescription: string;
   ogImage: string;
+  keywords: string;
   noindex: boolean;
 };
 
@@ -37,6 +39,7 @@ const EMPTY: Fields = {
   ogTitle: "",
   ogDescription: "",
   ogImage: "",
+  keywords: "",
   noindex: false,
 };
 
@@ -49,6 +52,7 @@ function toFields(o: Override | undefined): Fields {
     ogTitle: o?.ogTitle ?? "",
     ogDescription: o?.ogDescription ?? "",
     ogImage: o?.ogImage ?? "",
+    keywords: o?.keywords ?? "",
     noindex: Boolean(o?.noindex),
   };
 }
@@ -375,6 +379,15 @@ function SeoForm({
           value={fields.ogDescription}
           placeholder={fields.metaDescription || defaults.metaDescription}
           onChange={(e) => setField("ogDescription", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+
+      <Field label="Meta keywords" hint="Comma-separated. Minor signal for some engines; Google ignores it.">
+        <input
+          type="text"
+          value={fields.keywords}
+          onChange={(e) => setField("keywords", e.target.value)}
           className={inputCls}
         />
       </Field>

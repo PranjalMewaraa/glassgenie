@@ -57,9 +57,16 @@ export async function resolveMetadata(args: MetadataArgs): Promise<Metadata> {
   const ogTitle = override.ogTitle ?? title;
   const ogDescription = override.ogDescription ?? description;
   const images = override.ogImage ? [{ url: override.ogImage }] : undefined;
+  const keywords = override.keywords
+    ? override.keywords
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean)
+    : base.keywords;
 
   return {
     ...base,
+    keywords,
     // `absolute` bypasses the "%s | Glass Genie" template so the admin gets the
     // exact <title> they typed.
     title: override.metaTitle ? { absolute: override.metaTitle } : args.title,
