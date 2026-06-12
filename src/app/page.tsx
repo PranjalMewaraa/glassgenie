@@ -9,7 +9,7 @@ import {
 } from "@/components/icons";
 import { QuoteForm } from "@/components/QuoteForm";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
-import { ServiceCard, TestimonialCard, ProcessStepCard } from "@/components/cards";
+import { ServiceCard, TestimonialCard } from "@/components/cards";
 import { CtaBand, RatingsBar, LocationChips } from "@/components/sections";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { FaqJsonLd } from "@/components/seo/JsonLd";
@@ -161,36 +161,55 @@ export default function HomePage() {
       {/* 5. Process + Lifetime Guarantee */}
       <section className="bg-card">
         <Container className="py-16 sm:py-20">
-          <SectionHeading
-            eyebrow="How It Works"
-            title="The Glass Genie Process: Engineered for Excellence"
-            subtitle="Four meticulous steps that restore your vehicle to its original factory safety specification."
-          />
-          <div className="mt-12 grid gap-5 lg:grid-cols-4">
-            {processSteps.map((step, i) => (
-              <ProcessStepCard key={step.title} step={step} index={i} />
-            ))}
-          </div>
-
-          <div className="mt-6 grid items-center gap-6 overflow-hidden rounded-2xl bg-navy-900 p-8 text-white sm:grid-cols-2 sm:p-10">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Left: heading + numbered steps */}
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/80">
-                <ShieldIcon className="h-3.5 w-3.5" /> Lifetime Guarantee
-              </span>
-              <h3 className="mt-4 text-2xl font-extrabold">
-                Guaranteed for the life of your vehicle.
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-white/70">
-                Every installation is backed by our Lifetime Installation Warranty against
-                leaks, wind noise, and workmanship defects. We don&apos;t just fix your
-                glass — we restore your vehicle&apos;s structural integrity and stand behind it.
+              <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+                The Glass Genie Process:
+                <br />
+                Engineered for Excellence
+              </h2>
+              <p className="mt-4 max-w-xl text-base leading-7 text-muted">
+                We&apos;ve refined our auto glass replacement process to eliminate errors,
+                ensure maximum safety, and get you back on the road swiftly.
               </p>
+              <ol className="mt-10 space-y-8">
+                {processSteps.map((step, i) => (
+                  <li key={step.title} className="flex gap-5">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-surface text-base font-bold text-ink ring-1 ring-line">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-bold text-ink">{step.title}</h3>
+                      <p className="mt-1.5 text-sm leading-6 text-muted">
+                        {step.description}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
-            <PlaceholderImage
-              ratio="16/10"
-              tone="dark"
-              label="Glass Genie technician shaking hands with a satisfied customer"
-            />
+
+            {/* Right: image with overlaid Lifetime Guarantee card */}
+            <div className="relative">
+              <PlaceholderImage
+                ratio="3/4"
+                tone="dark"
+                rounded="rounded-3xl"
+                label="Glass Genie technician precision-cutting a windshield in the shop"
+              />
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-card p-6 shadow-xl ring-1 ring-line sm:inset-x-6 sm:bottom-6">
+                <div className="flex items-center gap-2.5">
+                  <ShieldIcon className="h-5 w-5 text-accent" />
+                  <h3 className="text-base font-bold text-ink">The Lifetime Guarantee</h3>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-muted">
+                  Every installation is backed by our lifetime warranty against leaks,
+                  wind noise, and manufacturer defects. We stand behind our craftsmanship
+                  permanently.
+                </p>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
