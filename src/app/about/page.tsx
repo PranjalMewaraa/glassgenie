@@ -1,6 +1,6 @@
 import { Container, SectionHeading } from "@/components/ui";
 import { CtaBand, FaqSection } from "@/components/sections";
-import { PlaceholderImage } from "@/components/PlaceholderImage";
+import Image from "next/image";
 import { ManagedHeading } from "@/components/ManagedHeading";
 import type { FAQ } from "@/content/types";
 import {
@@ -175,10 +175,15 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <PlaceholderImage
-              ratio="4/3"
-              label="Glass Genie founder and second-generation technician beside a mobile service van in Dallas–Fort Worth"
-            />
+            <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+              <Image
+                src="/img/man_repairing_autoglass.jpg"
+                alt="Glass Genie second-generation auto glass technician performing a professional windshield installation in Dallas–Fort Worth"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
           </div>
         </Container>
       </section>

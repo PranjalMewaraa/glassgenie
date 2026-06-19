@@ -8,7 +8,7 @@ import {
   CarGlassIcon,
 } from "@/components/icons";
 import { QuoteForm } from "@/components/QuoteForm";
-import { PlaceholderImage } from "@/components/PlaceholderImage";
+import Image from "next/image";
 import { ServiceCard, TestimonialCard } from "@/components/cards";
 import { CtaBand, RatingsBar, LocationChips } from "@/components/sections";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -192,12 +192,15 @@ export default function HomePage() {
 
             {/* Right: image with overlaid Lifetime Guarantee card */}
             <div className="relative">
-              <PlaceholderImage
-                ratio="3/4"
-                tone="dark"
-                rounded="rounded-3xl"
-                label="Glass Genie technician precision-cutting a windshield in the shop"
-              />
+              <div className="relative overflow-hidden rounded-3xl" style={{ aspectRatio: "3/4" }}>
+                <Image
+                  src="/img/man_repairing_autoglass.jpg"
+                  alt="Glass Genie certified technician performing a precision auto glass installation"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                />
+              </div>
               <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-card p-6 shadow-xl ring-1 ring-line sm:inset-x-6 sm:bottom-6">
                 <div className="flex items-center gap-2.5">
                   <ShieldIcon className="h-5 w-5 text-accent" />
@@ -233,15 +236,25 @@ export default function HomePage() {
                     <p key={j}>{p}</p>
                   ))}
                 </div>
-                {(i === 0 || i === 4) && (
-                  <div className="mt-6">
-                    <PlaceholderImage
-                      ratio="16/7"
-                      label={
-                        i === 0
-                          ? "Technician inspecting a windshield for structural cracks"
-                          : "Close-up of OEM glass being set with premium urethane adhesive"
-                      }
+                {i === 0 && (
+                  <div className="mt-6 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/7" }}>
+                    <Image
+                      src="/img/windshieldrepair.jpg"
+                      alt="Certified technician inspecting a windshield for structural cracks before auto glass repair"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 768px"
+                    />
+                  </div>
+                )}
+                {i === 4 && (
+                  <div className="mt-6 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/7" }}>
+                    <Image
+                      src="/img/fixing%20auto%20glass.webp"
+                      alt="Glass Genie technician setting OEM auto glass with premium urethane adhesive"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 768px"
                     />
                   </div>
                 )}

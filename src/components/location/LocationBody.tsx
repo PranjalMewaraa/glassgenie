@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui";
 import { CheckIcon, PhoneIcon, PinIcon, ArrowRightIcon } from "@/components/icons";
-import { PlaceholderImage } from "@/components/PlaceholderImage";
+import Image from "next/image";
 import { business, tel } from "@/content/business";
 import type { Location } from "@/content/types";
 
@@ -9,15 +9,26 @@ interface BodyProps {
   loc: Location;
 }
 
+const LOCATION_IMAGES = [
+  "/img/man_repairing_autoglass.jpg",
+  "/img/windshieldrepair.jpg",
+  "/img/fixing%20auto%20glass.webp",
+  "/img/car-glass-differenciation.webp",
+];
+
 function sectionImage(loc: Location, i: number): string {
   const subjects = [
-    `Mobile service van and technician repairing a windshield in ${loc.city}`,
+    `Mobile auto glass technician repairing a windshield in ${loc.city}, TX`,
     `Close-up of a chip repair tool on a cracked windshield`,
     `ADAS calibration equipment aimed at a vehicle windshield`,
     `Technician handing keys back to a customer in ${loc.city}`,
     `Glass Genie technician completing a windshield job in ${loc.city}`,
   ];
   return subjects[i % subjects.length];
+}
+
+function pickLocationImage(i: number): string {
+  return LOCATION_IMAGES[i % LOCATION_IMAGES.length];
 }
 
 function Stub({ loc }: BodyProps) {
@@ -104,7 +115,15 @@ function AlternatingBody({ loc }: BodyProps) {
                   )}
                 </div>
                 <div className={imageLeft ? "lg:order-1" : ""}>
-                  <PlaceholderImage ratio="4/3" label={sectionImage(loc, i)} />
+                  <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+                    <Image
+                      src={pickLocationImage(i)}
+                      alt={sectionImage(loc, i)}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
                 </div>
               </article>
             );
@@ -136,8 +155,14 @@ function StackedBody({ loc }: BodyProps) {
                 ))}
               </div>
               {i === 1 && (
-                <div className="mt-8">
-                  <PlaceholderImage ratio="16/7" label={sectionImage(loc, i)} />
+                <div className="mt-8 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/7" }}>
+                  <Image
+                    src={pickLocationImage(i)}
+                    alt={sectionImage(loc, i)}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 768px"
+                  />
                 </div>
               )}
             </article>
@@ -191,8 +216,14 @@ function SidebarBody({ loc }: BodyProps) {
                   ))}
                 </div>
                 {i === 2 && (
-                  <div className="mt-6">
-                    <PlaceholderImage ratio="16/8" label={sectionImage(loc, i)} />
+                  <div className="mt-6 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/8" }}>
+                    <Image
+                      src={pickLocationImage(i)}
+                      alt={sectionImage(loc, i)}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                    />
                   </div>
                 )}
               </article>
