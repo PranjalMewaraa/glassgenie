@@ -7,13 +7,32 @@ import {
   CheckIcon,
   ShieldIcon,
 } from "@/components/icons";
-import { PlaceholderImage } from "@/components/PlaceholderImage";
+import Image from "next/image";
 import { BenefitChip } from "@/components/cards";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { LocationChips, CtaBand } from "@/components/sections";
 import { ManagedHeading } from "@/components/ManagedHeading";
 import { business, tel } from "@/content/business";
 import type { Service } from "@/content/types";
+
+const SERVICE_IMAGES: Record<string, string[]> = {
+  "windshield-replacement": ["/img/carwindshield.avif", "/img/windshieldrepair.jpg", "/img/man_repairing_autoglass.jpg", "/img/fixing%20auto%20glass.webp"],
+  "windshield-repair": ["/img/windshieldrepair.jpg", "/img/man_repairing_autoglass.jpg", "/img/carwindshield.avif", "/img/fixing%20auto%20glass.webp"],
+  "adas-calibration": ["/img/car-glass-differenciation.webp", "/img/carwindshield.avif", "/img/man_repairing_autoglass.jpg", "/img/fixing%20auto%20glass.webp"],
+  "auto-door-glass": ["/img/doorglas.avif", "/img/man_repairing_autoglass.jpg", "/img/fixing%20auto%20glass.webp", "/img/car-glass-differenciation.webp"],
+  "window-regulators": ["/img/doorglas.avif", "/img/fixing%20auto%20glass.webp", "/img/man_repairing_autoglass.jpg", "/img/car-glass-differenciation.webp"],
+  "back-window-glass": ["/img/backglass.avif", "/img/backglass2.avif", "/img/man_repairing_autoglass.jpg", "/img/fixing%20auto%20glass.webp"],
+  "quarter-panel-glass": ["/img/backglass2.avif", "/img/backglass.avif", "/img/man_repairing_autoglass.jpg", "/img/car-glass-differenciation.webp"],
+  "vent-glass-replacement": ["/img/vent%20glass.jpg", "/img/doorglas.avif", "/img/man_repairing_autoglass.jpg", "/img/fixing%20auto%20glass.webp"],
+  "sunroof-glass": ["/img/sunroof.avif", "/img/man_repairing_autoglass.jpg", "/img/car-glass-differenciation.webp", "/img/fixing%20auto%20glass.webp"],
+};
+
+const FALLBACK_IMAGES = ["/img/man_repairing_autoglass.jpg", "/img/windshieldrepair.jpg", "/img/fixing%20auto%20glass.webp", "/img/car-glass-differenciation.webp"];
+
+function pickServiceImage(slug: string, index: number): string {
+  const pool = SERVICE_IMAGES[slug] ?? FALLBACK_IMAGES;
+  return pool[index % pool.length];
+}
 
 interface LayoutProps {
   service: Service;
@@ -172,8 +191,14 @@ function SidebarLayout({ service, path }: LayoutProps) {
                         ))}
                       </div>
                       {i === 3 && (
-                        <div className="mt-6">
-                          <PlaceholderImage ratio="16/8" label={sectionImageLabel(service, i)} />
+                        <div className="mt-6 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/8" }}>
+                          <Image
+                            src={pickServiceImage(service.slug, i)}
+                            alt={sectionImageLabel(service, i)}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 66vw"
+                          />
                         </div>
                       )}
                     </div>
@@ -288,8 +313,14 @@ function CenteredLayout({ service, path }: LayoutProps) {
                     ))}
                   </div>
                   {i === 1 && (
-                    <div className="mt-8">
-                      <PlaceholderImage ratio="16/7" label={sectionImageLabel(service, i)} />
+                    <div className="mt-8 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/7" }}>
+                      <Image
+                        src={pickServiceImage(service.slug, i)}
+                        alt={sectionImageLabel(service, i)}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 768px"
+                      />
                     </div>
                   )}
                 </article>
@@ -361,7 +392,16 @@ function ZigzagLayout({ service, path }: LayoutProps) {
               </div>
             </div>
             <div className="lg:justify-self-end lg:w-full">
-              <PlaceholderImage ratio="4/3" label={sectionImageLabel(service, 0)} />
+              <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+                <Image
+                  src={pickServiceImage(service.slug, 0)}
+                  alt={sectionImageLabel(service, 0)}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </div>
         </Container>
@@ -408,7 +448,15 @@ function ZigzagLayout({ service, path }: LayoutProps) {
                       </div>
                     </div>
                     <div className={flip ? "lg:order-1" : ""}>
-                      <PlaceholderImage ratio="4/3" label={sectionImageLabel(service, i + 1)} />
+                      <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+                        <Image
+                          src={pickServiceImage(service.slug, i + 1)}
+                          alt={sectionImageLabel(service, i + 1)}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                        />
+                      </div>
                     </div>
                   </article>
                 );
